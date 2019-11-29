@@ -1,0 +1,41 @@
+name: Tag
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.13
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+        id: go
+
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+
+      - name: Build
+        run: go build -o terraform-provider-ldap_${{ steps.get_version.outputs.VERSION }}
+
+      - name: Setup Lint
+        run: curl -LO https://github.com/golangci/golangci-lint/releases/download/v1.19.1/golangci-lint-1.19.1-linux-amd64.tar.gz && tar -xf golangci-lint-1.19.1-linux-amd64.tar.gz
+
+      - name: Lint
+        run: golangci-lint-1.19.1-linux-amd64/golangci-lint run
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: terraform-provider-ldap_${{ steps.get_version.outputs.VERSION }}
+          asset_name: terraform-provider-ldap_${{ steps.get_version.outputs.VERSION }}
+          tag: ${{ github.ref }}
+          overwrite: true
