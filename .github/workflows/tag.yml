@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Build
-        run: go build -o terraform-provider-ldap_${{ steps.get_version.outputs.VERSION }}
+        run: CGO_ENABLED=0 go build -ldflags="-w -s" -o terraform-provider-ldap_${{ steps.get_version.outputs.VERSION }}
 
       - name: Setup Lint
         run: curl -LO https://github.com/golangci/golangci-lint/releases/download/v1.19.1/golangci-lint-1.19.1-linux-amd64.tar.gz && tar -xf golangci-lint-1.19.1-linux-amd64.tar.gz
