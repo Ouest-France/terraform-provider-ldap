@@ -21,12 +21,12 @@ func Provider() *schema.Provider {
 			"bind_user": &schema.Schema{
 				Type:        schema.TypeString,
 				Required:    true,
-				Description: "FortiADC username",
+				Description: "LDAP username",
 			},
 			"bind_password": &schema.Schema{
 				Type:        schema.TypeString,
 				Required:    true,
-				Description: "FortiADC password",
+				Description: "LDAP password",
 			},
 			"tls": &schema.Schema{
 				Type:        schema.TypeBool,
