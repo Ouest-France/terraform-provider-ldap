@@ -25,6 +25,11 @@ func resourceLDAPGroup() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			"description": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 			"members": &schema.Schema{
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -48,7 +53,7 @@ func resourceLDAPGroupCreate(d *schema.ResourceData, m interface{}) error {
 		members = append(members, member.(string))
 	}
 
-	err := client.CreateGroup(dn, d.Get("name").(string), members)
+	err := client.CreateGroup(dn, d.Get("name").(string), d.Get("description").(string), members)
 	if err != nil {
 		return err
 	}
@@ -71,9 +76,16 @@ func resourceLDAPGroupRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
+	desc := ""
+	if val, ok := attributes["description"]; ok {
+		desc = val[0]
+	}
+	if err := d.Set("description", desc); err != nil {
+		return err
+	}
+
 	members := []string{}
 	for name, values := range attributes {
-
 		if name == "member" && len(values) >= 1 {
 			members = append(members, values...)
 		}
