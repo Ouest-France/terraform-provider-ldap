@@ -30,4 +30,6 @@ provider "ldap" {
 * `port` - (Required) LDAP port.
 * `bind_user` - (Required) LDAP bind user.
 * `bind_password` - (Required) LDAP bind password.
-* `tls` - (Optional) Enable TLS. Defaults to `false`.
+* `tls` - (Optional) Enable the TLS encryption for LDAP (LDAPS). Default, is `false`.
+* `tls_ca_certificate` - (Optional) The TLS CA certificate to trust for the LDAPS connection.
+* `tls_insecure` - (Optional) Don't verify the server TLS certificate. Default is `false`.
