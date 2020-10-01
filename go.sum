@@ -49,8 +49,8 @@ github.com/ChrisTrenkamp/goxpath v0.0.0-20170922090931-c385f95c6022/go.mod h1:nu
 github.com/ChrisTrenkamp/goxpath v0.0.0-20190607011252-c5096ec8773d h1:W1diKnDQkXxNDhghdBSbQ4LI/E1aJNTwpqPp3KtlB8w=
 github.com/ChrisTrenkamp/goxpath v0.0.0-20190607011252-c5096ec8773d/go.mod h1:nuWgzSkT5PnyOd+272uUmV0dnAnAn42Mk7PiQC5VzN4=
 github.com/NYTimes/gziphandler v0.0.0-20170623195520-56545f4a5d46/go.mod h1:3wb06e3pkSAbeQ52E9H9iFoQsEEwGN64994WTCIhntQ=
-github.com/Ouest-France/goldap v0.1.0 h1:p6/c2XBqzzyueVLyIeUIO5zSynADybWHp3M0Glx4NXA=
-github.com/Ouest-France/goldap v0.1.0/go.mod h1:b1NYFqPt2DkUi20zR+kvVvUa70fr0TrAFPrISFgnnbY=
+github.com/Ouest-France/goldap v0.3.0 h1:ZD6g+VaIM6WhGI6S980M2eSGUHRZMSct3ytVxFaDKvk=
+github.com/Ouest-France/goldap v0.3.0/go.mod h1:S6YFjrPJ4HUeDJdIky3z6j1uKXHDwGOMFAMCMb4xMC4=
 github.com/PuerkitoBio/purell v1.0.0/go.mod h1:c11w/QuzBsJSee3cPx9rAFu61PvFxuPbtSwDGJws/X0=
 github.com/PuerkitoBio/urlesc v0.0.0-20160726150825-5bd2802263f2/go.mod h1:uGdkoq3SwY9Y+13GIhn11/XLaGBb4BfwItxLd5jeuXE=
 github.com/QcloudApi/qcloud_sign_golang v0.0.0-20141224014652-e4130a326409/go.mod h1:1pk82RBxDY/JZnPQrtqHlUFfCctgdorsd9M06fMynOM=
@@ -138,11 +138,9 @@ github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5Kwzbycv
 github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=
 github.com/ghodss/yaml v0.0.0-20150909031657-73d445a93680/go.mod h1:4dBDuWmgqj2HViK6kFavaiC9ZROes6MMH2rRYeMEF04=
 github.com/ghodss/yaml v1.0.0/go.mod h1:4dBDuWmgqj2HViK6kFavaiC9ZROes6MMH2rRYeMEF04=
-github.com/go-asn1-ber/asn1-ber v1.3.1/go.mod h1:hEBeB/ic+5LoWskz+yKT7vGhhPYkProFKoKdwZRWMe0=
 github.com/go-asn1-ber/asn1-ber v1.5.1 h1:pDbRAunXzIUXfx4CB2QJFv5IuPiuoW+sWvr/Us009o8=
 github.com/go-asn1-ber/asn1-ber v1.5.1/go.mod h1:hEBeB/ic+5LoWskz+yKT7vGhhPYkProFKoKdwZRWMe0=
 github.com/go-kit/kit v0.8.0/go.mod h1:xBxKIO96dXMWWy0MnWVtmwkA9/13aqxPnvrjFYMA2as=
-github.com/go-ldap/ldap/v3 v3.1.3/go.mod h1:3rbOH3jRS2u6jg2rJnKAMLE/xQyCKIveG2Sa/Cohzb8=
 github.com/go-ldap/ldap/v3 v3.2.3 h1:FBt+5w3q/vPVPb4eYMQSn+pOiz4zewPamYhlGMmc7yM=
 github.com/go-ldap/ldap/v3 v3.2.3/go.mod h1:iYS1MdmrmceOJ1QOTnRXrIs7i3kloqtmGQjRvjKpyMg=
 github.com/go-logfmt/logfmt v0.3.0/go.mod h1:Qt1PoO58o5twSAckw1HlFXLmHsOX5/0LbT9GBnD5lWE=
