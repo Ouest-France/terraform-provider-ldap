@@ -12,6 +12,7 @@ func resourceLDAPGroup() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceLDAPGroupCreate,
 		Read:   resourceLDAPGroupRead,
+		Update: resourceLDAPGroupUpdate,
 		Delete: resourceLDAPGroupDelete,
 
 		Schema: map[string]*schema.Schema{
@@ -24,6 +25,10 @@ func resourceLDAPGroup() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
+			},
+			"description": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"members": &schema.Schema{
 				Type:     schema.TypeSet,
@@ -48,7 +53,7 @@ func resourceLDAPGroupCreate(d *schema.ResourceData, m interface{}) error {
 		members = append(members, member.(string))
 	}
 
-	err := client.CreateGroup(dn, d.Get("name").(string), members)
+	err := client.CreateGroup(dn, d.Get("name").(string), d.Get("description").(string), members)
 	if err != nil {
 		return err
 	}
@@ -71,9 +76,16 @@ func resourceLDAPGroupRead(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
+	desc := ""
+	if val, ok := attributes["description"]; ok {
+		desc = val[0]
+	}
+	if err := d.Set("description", desc); err != nil {
+		return err
+	}
+
 	members := []string{}
 	for name, values := range attributes {
-
 		if name == "member" && len(values) >= 1 {
 			members = append(members, values...)
 		}
@@ -81,6 +93,17 @@ func resourceLDAPGroupRead(d *schema.ResourceData, m interface{}) error {
 	err = d.Set("members", members)
 
 	return err
+}
+
+func resourceLDAPGroupUpdate(d *schema.ResourceData, m interface{}) error {
+	client := m.(*goldap.Client)
+	dn := fmt.Sprintf("CN=%s,%s", d.Get("name").(string), d.Get("ou").(string))
+
+	if err := client.UpdateGroup(dn, d.Get("name").(string), d.Get("description").(string)); err != nil {
+		return err
+	}
+
+	return resourceLDAPGroupRead(d, m)
 }
 
 func resourceLDAPGroupDelete(d *schema.ResourceData, m interface{}) error {

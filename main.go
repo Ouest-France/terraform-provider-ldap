@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/Ouest-France/terraform-provider-ldap/ldap"
-	
 	"github.com/hashicorp/terraform/plugin"
 	"github.com/hashicorp/terraform/terraform"
 )
