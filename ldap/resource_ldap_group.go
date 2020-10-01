@@ -99,17 +99,8 @@ func resourceLDAPGroupUpdate(d *schema.ResourceData, m interface{}) error {
 	client := m.(*goldap.Client)
 	dn := fmt.Sprintf("CN=%s,%s", d.Get("name").(string), d.Get("ou").(string))
 
-	if d.HasChange("description") {
-		desc := ""
-		if val, ok := d.GetOk("description"); ok {
-			desc = val.(string)
-		}
-
-		if err := client.UpdateGroup(dn, d.Get("name").(string), desc); err != nil {
-			return err
-		}
-
-		d.Set("description", desc)
+	if err := client.UpdateGroup(dn, d.Get("name").(string), d.Get("description").(string)); err != nil {
+		return err
 	}
 
 	return resourceLDAPGroupRead(d, m)
