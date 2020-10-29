@@ -2,6 +2,7 @@ package ldap
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/Ouest-France/goldap"
 	"github.com/go-ldap/ldap/v3"
@@ -14,6 +15,9 @@ func resourceLDAPGroup() *schema.Resource {
 		Read:   resourceLDAPGroupRead,
 		Update: resourceLDAPGroupUpdate,
 		Delete: resourceLDAPGroupDelete,
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 
 		Schema: map[string]*schema.Schema{
 			"ou": &schema.Schema{
@@ -66,14 +70,26 @@ func resourceLDAPGroupCreate(d *schema.ResourceData, m interface{}) error {
 func resourceLDAPGroupRead(d *schema.ResourceData, m interface{}) error {
 	client := m.(*goldap.Client)
 
-	dn := fmt.Sprintf("CN=%s,%s", d.Get("name").(string), d.Get("ou").(string))
+	dn := d.Id()
 
 	attributes, err := client.ReadGroup(dn)
 	if err != nil {
 		if err.(*ldap.Error).ResultCode == 32 {
 			// Object doesn't exist
 			d.SetId("")
+			return nil
 		}
+		return err
+	}
+
+	if err := d.Set("name", attributes["name"][0]); err != nil {
+		return err
+	}
+
+	// Remove the `CN=<group-name>,` from the DN to get the OU
+	ou := strings.ReplaceAll(dn, fmt.Sprintf("CN=%s,", attributes["name"][0]), "")
+	if err := d.Set("ou", ou); err != nil {
+		return err
 	}
 
 	desc := ""
