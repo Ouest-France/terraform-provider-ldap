@@ -23,3 +23,11 @@ resource "ldap_group" "group" {
 ## Attribute Reference
 
 * `id` - LDAP group DN.
+
+## Import
+
+LDAP group can be imported using the full LDAP DN (`id`), e.g.
+
+```
+$ terraform import ldap_group.example CN=MyGroup,OU=MyOU,DC=domain,DC=tld
+```
