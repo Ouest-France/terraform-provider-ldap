@@ -6,7 +6,7 @@ import (
 
 	"github.com/Ouest-France/goldap"
 	"github.com/go-ldap/ldap/v3"
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func resourceLDAPGroup() *schema.Resource {
@@ -16,7 +16,7 @@ func resourceLDAPGroup() *schema.Resource {
 		Update: resourceLDAPGroupUpdate,
 		Delete: resourceLDAPGroupDelete,
 		Importer: &schema.ResourceImporter{
-			State: schema.ImportStatePassthrough,
+			StateContext: schema.ImportStatePassthroughContext,
 		},
 
 		Schema: map[string]*schema.Schema{
