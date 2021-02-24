@@ -6,7 +6,7 @@ import (
 
 	"github.com/Ouest-France/goldap"
 	"github.com/go-ldap/ldap/v3"
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
 func resourceLDAPGroup() *schema.Resource {

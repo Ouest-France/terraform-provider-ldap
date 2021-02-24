@@ -2,7 +2,7 @@ package ldap
 
 import (
 	"github.com/Ouest-France/goldap"
-	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
 func Provider() *schema.Provider {
