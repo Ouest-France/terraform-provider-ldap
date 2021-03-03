@@ -1,20 +1,22 @@
 package ldap
 
 import (
+	"context"
 	"fmt"
 	"strings"
 
 	"github.com/Ouest-France/goldap"
 	"github.com/go-ldap/ldap/v3"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func resourceLDAPGroup() *schema.Resource {
 	return &schema.Resource{
-		Create: resourceLDAPGroupCreate,
-		Read:   resourceLDAPGroupRead,
-		Update: resourceLDAPGroupUpdate,
-		Delete: resourceLDAPGroupDelete,
+		CreateContext: resourceLDAPGroupCreate,
+		ReadContext:   resourceLDAPGroupRead,
+		UpdateContext: resourceLDAPGroupUpdate,
+		DeleteContext: resourceLDAPGroupDelete,
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
@@ -46,7 +48,7 @@ func resourceLDAPGroup() *schema.Resource {
 	}
 }
 
-func resourceLDAPGroupCreate(d *schema.ResourceData, m interface{}) error {
+func resourceLDAPGroupCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*goldap.Client)
 
 	dn := fmt.Sprintf("CN=%s,%s", d.Get("name").(string), d.Get("ou").(string))
@@ -59,15 +61,15 @@ func resourceLDAPGroupCreate(d *schema.ResourceData, m interface{}) error {
 
 	err := client.CreateGroup(dn, d.Get("name").(string), d.Get("description").(string), members)
 	if err != nil {
-		return err
+		return diag.FromErr(err)
 	}
 
 	d.SetId(dn)
 
-	return resourceLDAPGroupRead(d, m)
+	return resourceLDAPGroupRead(ctx, d, m)
 }
 
-func resourceLDAPGroupRead(d *schema.ResourceData, m interface{}) error {
+func resourceLDAPGroupRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*goldap.Client)
 
 	dn := d.Id()
@@ -76,20 +78,28 @@ func resourceLDAPGroupRead(d *schema.ResourceData, m interface{}) error {
 	if err != nil {
 		if err.(*ldap.Error).ResultCode == 32 {
 			// Object doesn't exist
+
+			// If Read is called from a datasource, return an error
+			if ctx.Value(CallerTypeKey) == DatasourceCaller {
+				return diag.Errorf("LDAP group not found: %s", dn)
+			}
+
+			// If not a call from datasource, remove the resource from the state
+			// and cleanly return
 			d.SetId("")
 			return nil
 		}
-		return err
+		return diag.FromErr(err)
 	}
 
 	if err := d.Set("name", attributes["name"][0]); err != nil {
-		return err
+		return diag.FromErr(err)
 	}
 
 	// Remove the `CN=<group-name>,` from the DN to get the OU
 	ou := strings.ReplaceAll(dn, fmt.Sprintf("CN=%s,", attributes["name"][0]), "")
 	if err := d.Set("ou", ou); err != nil {
-		return err
+		return diag.FromErr(err)
 	}
 
 	desc := ""
@@ -97,7 +107,7 @@ func resourceLDAPGroupRead(d *schema.ResourceData, m interface{}) error {
 		desc = val[0]
 	}
 	if err := d.Set("description", desc); err != nil {
-		return err
+		return diag.FromErr(err)
 	}
 
 	members := []string{}
@@ -108,26 +118,26 @@ func resourceLDAPGroupRead(d *schema.ResourceData, m interface{}) error {
 	}
 	err = d.Set("members", members)
 
-	return err
+	return diag.FromErr(err)
 }
 
-func resourceLDAPGroupUpdate(d *schema.ResourceData, m interface{}) error {
+func resourceLDAPGroupUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*goldap.Client)
 	dn := fmt.Sprintf("CN=%s,%s", d.Get("name").(string), d.Get("ou").(string))
 
 	if err := client.UpdateGroup(dn, d.Get("name").(string), d.Get("description").(string)); err != nil {
-		return err
+		return diag.FromErr(err)
 	}
 
-	return resourceLDAPGroupRead(d, m)
+	return resourceLDAPGroupRead(ctx, d, m)
 }
 
-func resourceLDAPGroupDelete(d *schema.ResourceData, m interface{}) error {
+func resourceLDAPGroupDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*goldap.Client)
 
 	dn := fmt.Sprintf("CN=%s,%s", d.Get("name").(string), d.Get("ou").(string))
 
 	err := client.DeleteGroup(dn)
 
-	return err
+	return diag.FromErr(err)
 }
