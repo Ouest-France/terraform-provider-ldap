@@ -1,14 +1,16 @@
 package ldap
 
 import (
+	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func dataSourceLDAPGroup() *schema.Resource {
 	return &schema.Resource{
-		Read: dataSourceLDAPGroupRead,
+		ReadContext: dataSourceLDAPGroupRead,
 
 		Schema: map[string]*schema.Schema{
 			"ou": &schema.Schema{
@@ -34,10 +36,11 @@ func dataSourceLDAPGroup() *schema.Resource {
 	}
 }
 
-func dataSourceLDAPGroupRead(d *schema.ResourceData, m interface{}) error {
+func dataSourceLDAPGroupRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	dn := fmt.Sprintf("CN=%s,%s", d.Get("name").(string), d.Get("ou").(string))
 
 	d.SetId(dn)
 
-	return resourceLDAPGroupRead(d, m)
+	// Add context key to signal the Read is called from a datasource
+	return resourceLDAPGroupRead(context.WithValue(ctx, CallerTypeKey, DatasourceCaller), d, m)
 }
