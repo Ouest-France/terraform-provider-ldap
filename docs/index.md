@@ -1,6 +1,6 @@
 # LDAP Provider
 
-The LDAP provider is used to interact with any LDAP server.
+The LDAP provider is used to interact with any ActiveDirectory server.
 
 ## Example Usage
 
