@@ -34,8 +34,8 @@ github.com/Azure/go-ntlmssp v0.0.0-20200615164410-66371956d46c h1:/IBSNwUN8+eKzU
 github.com/Azure/go-ntlmssp v0.0.0-20200615164410-66371956d46c/go.mod h1:chxPXzSsl7ZWRAuOIE23GDNzjWuZquvFlgA8xmpunjU=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
-github.com/Ouest-France/goldap v0.4.0 h1:wkD1q5V2COkucE2HnQWqcgTHJH6J/A9WgwLZrnM4qWE=
-github.com/Ouest-France/goldap v0.4.0/go.mod h1:RwWUzDNiNoS0UXEdAjcoIayOR5TTbHyqBbAmM5dcNJo=
+github.com/Ouest-France/goldap v0.5.1 h1:4MVIa4QjIOGzaT3cC4kc3YmM3ZSJ1KxdxkqMOpCef+A=
+github.com/Ouest-France/goldap v0.5.1/go.mod h1:RwWUzDNiNoS0UXEdAjcoIayOR5TTbHyqBbAmM5dcNJo=
 github.com/agext/levenshtein v1.2.1/go.mod h1:JEDfjyjHDjOF/1e4FlBE/PkbqA9OfWu2ki2W0IB5558=
 github.com/agext/levenshtein v1.2.2 h1:0S/Yg6LYmFJ5stwQeRp6EeOcCbj7xiqQSdNelsXvaqE=
 github.com/agext/levenshtein v1.2.2/go.mod h1:JEDfjyjHDjOF/1e4FlBE/PkbqA9OfWu2ki2W0IB5558=

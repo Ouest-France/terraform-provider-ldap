@@ -39,7 +39,6 @@ func resourceLDAPGroup() *schema.Resource {
 			"members": &schema.Schema{
 				Type:     schema.TypeSet,
 				Optional: true,
-				ForceNew: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -125,8 +124,22 @@ func resourceLDAPGroupUpdate(ctx context.Context, d *schema.ResourceData, m inte
 	client := m.(*goldap.Client)
 	dn := fmt.Sprintf("CN=%s,%s", d.Get("name").(string), d.Get("ou").(string))
 
-	if err := client.UpdateGroup(dn, d.Get("name").(string), d.Get("description").(string)); err != nil {
-		return diag.FromErr(err)
+	if d.HasChange("members") {
+		members := []string{}
+		memberSet := d.Get("members").(*schema.Set)
+		for _, member := range memberSet.List() {
+			members = append(members, member.(string))
+		}
+
+		if err := client.UpdateGroupMembers(dn, members); err != nil {
+			return diag.FromErr(err)
+		}
+	}
+
+	if d.HasChange("description") {
+		if err := client.UpdateGroupDescription(dn, d.Get("description").(string)); err != nil {
+			return diag.FromErr(err)
+		}
 	}
 
 	return resourceLDAPGroupRead(ctx, d, m)
