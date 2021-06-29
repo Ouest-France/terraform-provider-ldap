@@ -8,38 +8,38 @@ import (
 func Provider() *schema.Provider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
-			"host": &schema.Schema{
+			"host": {
 				Type:        schema.TypeString,
 				Required:    true,
 				Description: "LDAP host",
 			},
-			"port": &schema.Schema{
+			"port": {
 				Type:        schema.TypeInt,
 				Required:    true,
 				Description: "LDAP port",
 			},
-			"bind_user": &schema.Schema{
+			"bind_user": {
 				Type:        schema.TypeString,
 				Required:    true,
 				Description: "LDAP username",
 			},
-			"bind_password": &schema.Schema{
+			"bind_password": {
 				Type:        schema.TypeString,
 				Required:    true,
 				Description: "LDAP password",
 			},
-			"tls": &schema.Schema{
+			"tls": {
 				Type:        schema.TypeBool,
 				Optional:    true,
 				Default:     false,
 				Description: "Enable the TLS encryption for LDAP (LDAPS). Default, is `false`.",
 			},
-			"tls_ca_certificate": &schema.Schema{
+			"tls_ca_certificate": {
 				Type:        schema.TypeString,
 				Optional:    true,
 				Description: "The TLS CA certificate to trust for the LDAPS connection.",
 			},
-			"tls_insecure": &schema.Schema{
+			"tls_insecure": {
 				Type:        schema.TypeBool,
 				Optional:    true,
 				Default:     false,

@@ -13,6 +13,7 @@ import (
 
 func resourceLDAPGroup() *schema.Resource {
 	return &schema.Resource{
+		Description:   "`ldap_group` is a resource for managing an LDAP group.",
 		CreateContext: resourceLDAPGroupCreate,
 		ReadContext:   resourceLDAPGroupRead,
 		UpdateContext: resourceLDAPGroupUpdate,
@@ -22,26 +23,41 @@ func resourceLDAPGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
-			"ou": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+			"id": {
+				Description: "The DN of the LDAP group.",
+				Type:        schema.TypeString,
+				Computed:    true,
 			},
-			"name": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+			"ou": {
+				Description: "OU where LDAP group will be created.",
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
 			},
-			"description": &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
+			"name": {
+				Description: "LDAP group name.",
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
 			},
-			"members": &schema.Schema{
-				Type:     schema.TypeSet,
-				Optional: true,
+			"description": {
+				Description: "Description attribute for the LDAP group.",
+				Type:        schema.TypeString,
+				Optional:    true,
+			},
+			"members": {
+				Description: " LDAP group members.",
+				Type:        schema.TypeSet,
+				Optional:    true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"group_type": {
+				Description: "Type of the group",
+				Type:        schema.TypeString,
+				Optional:    true,
+				Computed:    true,
 			},
 		},
 	}
@@ -61,6 +77,13 @@ func resourceLDAPGroupCreate(ctx context.Context, d *schema.ResourceData, m inte
 	err := client.CreateGroup(dn, d.Get("name").(string), d.Get("description").(string), members)
 	if err != nil {
 		return diag.FromErr(err)
+	}
+	groupType := d.Get("group_type").(string)
+	if groupType != "" {
+		err := client.UpdateGroupType(dn, groupType)
+		if err != nil {
+			return diag.FromErr(err)
+		}
 	}
 
 	d.SetId(dn)
@@ -108,6 +131,13 @@ func resourceLDAPGroupRead(ctx context.Context, d *schema.ResourceData, m interf
 	if err := d.Set("description", desc); err != nil {
 		return diag.FromErr(err)
 	}
+	groupType := ""
+	if val, ok := attributes["groupType"]; ok {
+		groupType = val[0]
+	}
+	if err := d.Set("group_type", groupType); err != nil {
+		return diag.FromErr(err)
+	}
 
 	members := []string{}
 	for name, values := range attributes {
@@ -138,6 +168,12 @@ func resourceLDAPGroupUpdate(ctx context.Context, d *schema.ResourceData, m inte
 
 	if d.HasChange("description") {
 		if err := client.UpdateGroupDescription(dn, d.Get("description").(string)); err != nil {
+			return diag.FromErr(err)
+		}
+	}
+
+	if d.HasChange("group_type") {
+		if err := client.UpdateGroupType(dn, d.Get("group_type").(string)); err != nil {
 			return diag.FromErr(err)
 		}
 	}
