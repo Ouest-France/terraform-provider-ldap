@@ -7,3 +7,5 @@ require (
 	github.com/go-ldap/ldap/v3 v3.3.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.6.1
 )
+
+replace github.com/Ouest-France/goldap => github.com/cgroschupp/goldap v0.5.3-0.20210628135238-fe975add0ffd

@@ -43,6 +43,11 @@ func resourceLDAPGroup() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"group_type": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -61,6 +66,13 @@ func resourceLDAPGroupCreate(ctx context.Context, d *schema.ResourceData, m inte
 	err := client.CreateGroup(dn, d.Get("name").(string), d.Get("description").(string), members)
 	if err != nil {
 		return diag.FromErr(err)
+	}
+	groupType := d.Get("group_type").(string)
+	if groupType != "" {
+		err := client.UpdateGroupType(dn, groupType)
+		if err != nil {
+			return diag.FromErr(err)
+		}
 	}
 
 	d.SetId(dn)
@@ -108,6 +120,13 @@ func resourceLDAPGroupRead(ctx context.Context, d *schema.ResourceData, m interf
 	if err := d.Set("description", desc); err != nil {
 		return diag.FromErr(err)
 	}
+	groupType := ""
+	if val, ok := attributes["groupType"]; ok {
+		groupType = val[0]
+	}
+	if err := d.Set("group_type", groupType); err != nil {
+		return diag.FromErr(err)
+	}
 
 	members := []string{}
 	for name, values := range attributes {
@@ -138,6 +157,12 @@ func resourceLDAPGroupUpdate(ctx context.Context, d *schema.ResourceData, m inte
 
 	if d.HasChange("description") {
 		if err := client.UpdateGroupDescription(dn, d.Get("description").(string)); err != nil {
+			return diag.FromErr(err)
+		}
+	}
+
+	if d.HasChange("group_type") {
+		if err := client.UpdateGroupType(dn, d.Get("group_type").(string)); err != nil {
 			return diag.FromErr(err)
 		}
 	}
