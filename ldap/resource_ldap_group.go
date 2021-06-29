@@ -28,24 +28,24 @@ func resourceLDAPGroup() *schema.Resource {
 				Type:        schema.TypeString,
 				Computed:    true,
 			},
-			"ou": &schema.Schema{
+			"ou": {
 				Description: "OU where LDAP group will be created.",
 				Type:        schema.TypeString,
 				Required:    true,
 				ForceNew:    true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Description: "LDAP group name.",
 				Type:        schema.TypeString,
 				Required:    true,
 				ForceNew:    true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Description: "Description attribute for the LDAP group.",
 				Type:        schema.TypeString,
 				Optional:    true,
 			},
-			"members": &schema.Schema{
+			"members": {
 				Description: " LDAP group members.",
 				Type:        schema.TypeSet,
 				Optional:    true,
@@ -53,7 +53,7 @@ func resourceLDAPGroup() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-			"group_type": &schema.Schema{
+			"group_type": {
 				Description: "Type of the group",
 				Type:        schema.TypeString,
 				Optional:    true,
