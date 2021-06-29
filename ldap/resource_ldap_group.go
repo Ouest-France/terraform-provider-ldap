@@ -13,6 +13,7 @@ import (
 
 func resourceLDAPGroup() *schema.Resource {
 	return &schema.Resource{
+		Description:   "`ldap_group` is a resource for managing an LDAP group.",
 		CreateContext: resourceLDAPGroupCreate,
 		ReadContext:   resourceLDAPGroupRead,
 		UpdateContext: resourceLDAPGroupUpdate,
@@ -22,31 +23,41 @@ func resourceLDAPGroup() *schema.Resource {
 		},
 
 		Schema: map[string]*schema.Schema{
+			"id": {
+				Description: "The DN of the LDAP group.",
+				Type:        schema.TypeString,
+				Computed:    true,
+			},
 			"ou": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Description: "OU where LDAP group will be created.",
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
 			},
 			"name": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Description: "LDAP group name.",
+				Type:        schema.TypeString,
+				Required:    true,
+				ForceNew:    true,
 			},
 			"description": &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
+				Description: "Description attribute for the LDAP group.",
+				Type:        schema.TypeString,
+				Optional:    true,
 			},
 			"members": &schema.Schema{
-				Type:     schema.TypeSet,
-				Optional: true,
+				Description: " LDAP group members.",
+				Type:        schema.TypeSet,
+				Optional:    true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
 			},
 			"group_type": &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Description: "Type of the group",
+				Type:        schema.TypeString,
+				Optional:    true,
+				Computed:    true,
 			},
 		},
 	}
