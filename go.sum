@@ -39,8 +39,8 @@ github.com/Masterminds/semver v1.5.0/go.mod h1:MB6lktGJrhw8PrUyiEoblNEGEQ+RzHPF0
 github.com/Masterminds/sprig v2.22.0+incompatible/go.mod h1:y6hNFY5UBTIWBxnzTeuNhlNS5hqE0NB0E6fgfo2Br3o=
 github.com/Microsoft/go-winio v0.4.14/go.mod h1:qXqCSQ3Xa7+6tgxaGTIe4Kpcdsi+P8jBhyzoq1bpyYA=
 github.com/Microsoft/go-winio v0.4.16/go.mod h1:XB6nPKklQyQ7GC9LdcBEcBl8PF76WugXOPRXwdLnMv0=
-github.com/Ouest-France/goldap v0.5.2 h1:0EjHUGlD4Yei9YE1SaQeX/Ql7iriR6kplhL2pTttnCY=
-github.com/Ouest-France/goldap v0.5.2/go.mod h1:QJH+Ft6452W7+EZAr1kPgaQqJFlM5ZgdtbCFXpYi/nY=
+github.com/Ouest-France/goldap v0.5.3 h1:+Kj5LsLxlrQivb0cB4z0dxm2ADZ/f1355kX5+qW+9sw=
+github.com/Ouest-France/goldap v0.5.3/go.mod h1:QJH+Ft6452W7+EZAr1kPgaQqJFlM5ZgdtbCFXpYi/nY=
 github.com/agext/levenshtein v1.2.1/go.mod h1:JEDfjyjHDjOF/1e4FlBE/PkbqA9OfWu2ki2W0IB5558=
 github.com/agext/levenshtein v1.2.2 h1:0S/Yg6LYmFJ5stwQeRp6EeOcCbj7xiqQSdNelsXvaqE=
 github.com/agext/levenshtein v1.2.2/go.mod h1:JEDfjyjHDjOF/1e4FlBE/PkbqA9OfWu2ki2W0IB5558=

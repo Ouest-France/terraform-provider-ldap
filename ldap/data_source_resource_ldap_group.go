@@ -32,6 +32,10 @@ func dataSourceLDAPGroup() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"group_type": &schema.Schema{
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
