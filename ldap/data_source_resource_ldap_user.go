@@ -11,28 +11,39 @@ import (
 
 func dataSourceLDAPUser() *schema.Resource {
 	return &schema.Resource{
+		Description: "`ldap_user` is a data source for retrieving an LDAP user.",
 		ReadContext: dataSourceLDAPUserRead,
 		Schema: map[string]*schema.Schema{
-			"ou": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
+			"id": {
+				Description: "The DN of the LDAP user.",
+				Type:        schema.TypeString,
+				Computed:    true,
 			},
-			"name": &schema.Schema{
+			"ou": {
+				Description: "OU where LDAP user will be search.",
+				Type:        schema.TypeString,
+				Required:    true,
+			},
+			"name": {
+				Description:  "The name of the LDAP user.",
 				Type:         schema.TypeString,
 				Optional:     true,
 				ExactlyOneOf: []string{"name", "sam_account_name", "user_principal_name"},
 			},
-			"sam_account_name": &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
+			"sam_account_name": {
+				Description: "The sAMAccountName of the LDAP user.",
+				Type:        schema.TypeString,
+				Optional:    true,
 			},
-			"user_principal_name": &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
+			"user_principal_name": {
+				Description: "The userPrincipalName of the LDAP user",
+				Type:        schema.TypeString,
+				Optional:    true,
 			},
-			"description": &schema.Schema{
-				Type:     schema.TypeString,
-				Optional: true,
+			"description": {
+				Description: "Description attribute for the LDAP user.",
+				Type:        schema.TypeString,
+				Optional:    true,
 			},
 		},
 	}

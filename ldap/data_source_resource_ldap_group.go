@@ -10,27 +10,42 @@ import (
 
 func dataSourceLDAPGroup() *schema.Resource {
 	return &schema.Resource{
+		Description: "`ldap_group` is a data source for managing an LDAP group.",
 		ReadContext: dataSourceLDAPGroupRead,
 
 		Schema: map[string]*schema.Schema{
+			"id": {
+				Description: "The DN of the LDAP group.",
+				Type:        schema.TypeString,
+				Computed:    true,
+			},
 			"ou": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
+				Description: "OU where LDAP group will be search.",
+				Type:        schema.TypeString,
+				Required:    true,
 			},
 			"name": &schema.Schema{
-				Type:     schema.TypeString,
-				Required: true,
+				Description: "LDAP group name.",
+				Type:        schema.TypeString,
+				Required:    true,
 			},
 			"description": &schema.Schema{
-				Type:     schema.TypeString,
-				Computed: true,
+				Description: "Description attribute for the LDAP",
+				Type:        schema.TypeString,
+				Computed:    true,
 			},
 			"members": &schema.Schema{
-				Type:     schema.TypeSet,
-				Computed: true,
+				Description: "LDAP group members.",
+				Type:        schema.TypeSet,
+				Computed:    true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"group_type": &schema.Schema{
+				Description: "Type of the group",
+				Type:        schema.TypeString,
+				Computed:    true,
 			},
 		},
 	}
