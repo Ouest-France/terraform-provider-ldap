@@ -114,7 +114,12 @@ func resourceLDAPGroupRead(ctx context.Context, d *schema.ResourceData, m interf
 		return diag.FromErr(err)
 	}
 
-	if err := d.Set("name", attributes["name"][0]); err != nil {
+	nameAttr, ok := attributes["name"]
+	if !ok || len(nameAttr) != 1 {
+		return diag.Errorf("LDAP attribute \"name\" doesn't exist or is empty for group: %s", dn)
+	}
+
+	if err := d.Set("name", nameAttr[0]); err != nil {
 		return diag.FromErr(err)
 	}
 
