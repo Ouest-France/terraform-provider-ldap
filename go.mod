@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/Ouest-France/goldap v0.5.4
 	github.com/go-ldap/ldap/v3 v3.4.1
-	github.com/hashicorp/terraform-plugin-sdk/v2 v2.7.1
+	github.com/hashicorp/terraform-plugin-sdk/v2 v2.8.0
 )
 
 require (
@@ -24,7 +24,7 @@ require (
 	github.com/hashicorp/go-uuid v1.0.1 // indirect
 	github.com/hashicorp/go-version v1.3.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.3.0 // indirect
-	github.com/hashicorp/terraform-plugin-go v0.3.0 // indirect
+	github.com/hashicorp/terraform-plugin-go v0.4.0 // indirect
 	github.com/hashicorp/yamux v0.0.0-20181012175058-2f1d1f20f75d // indirect
 	github.com/mattn/go-colorable v0.1.4 // indirect
 	github.com/mattn/go-isatty v0.0.10 // indirect
