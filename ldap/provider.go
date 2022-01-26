@@ -21,10 +21,12 @@ func Provider() *schema.Provider {
 			"bind_user": {
 				Type:        schema.TypeString,
 				Required:    true,
+				DefaultFunc: schema.EnvDefaultFunc("BIND_USER", nil),
 				Description: "LDAP username",
 			},
 			"bind_password": {
 				Type:        schema.TypeString,
+				DefaultFunc: schema.EnvDefaultFunc("BIND_PASSWORD", nil),
 				Required:    true,
 				Description: "LDAP password",
 			},
