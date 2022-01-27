@@ -11,11 +11,13 @@ func Provider() *schema.Provider {
 			"host": {
 				Type:        schema.TypeString,
 				Required:    true,
+				DefaultFunc: schema.EnvDefaultFunc("LDAP_HOST", nil),
 				Description: "LDAP host",
 			},
 			"port": {
 				Type:        schema.TypeInt,
 				Required:    true,
+				DefaultFunc: schema.EnvDefaultFunc("LDAP_PORT", nil),
 				Description: "LDAP port",
 			},
 			"bind_user": {
