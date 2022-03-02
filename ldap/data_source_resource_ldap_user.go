@@ -25,10 +25,9 @@ func dataSourceLDAPUser() *schema.Resource {
 				Required:    true,
 			},
 			"name": {
-				Description:  "The name of the LDAP user.",
-				Type:         schema.TypeString,
-				Optional:     true,
-				ExactlyOneOf: []string{"name", "sam_account_name", "user_principal_name"},
+				Description: "The name of the LDAP user.",
+				Type:        schema.TypeString,
+				Required:    true,
 			},
 			"sam_account_name": {
 				Description: "The sAMAccountName of the LDAP user.",
