@@ -19,22 +19,22 @@ func dataSourceLDAPGroup() *schema.Resource {
 				Type:        schema.TypeString,
 				Computed:    true,
 			},
-			"ou": &schema.Schema{
+			"ou": {
 				Description: "OU where LDAP group will be search.",
 				Type:        schema.TypeString,
 				Required:    true,
 			},
-			"name": &schema.Schema{
+			"name": {
 				Description: "LDAP group name.",
 				Type:        schema.TypeString,
 				Required:    true,
 			},
-			"description": &schema.Schema{
+			"description": {
 				Description: "Description attribute for the LDAP",
 				Type:        schema.TypeString,
 				Computed:    true,
 			},
-			"members": &schema.Schema{
+			"members": {
 				Description: "LDAP group members.",
 				Type:        schema.TypeSet,
 				Computed:    true,
@@ -42,7 +42,7 @@ func dataSourceLDAPGroup() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-			"group_type": &schema.Schema{
+			"group_type": {
 				Description: "Type of the group",
 				Type:        schema.TypeString,
 				Computed:    true,

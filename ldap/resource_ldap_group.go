@@ -96,7 +96,7 @@ func resourceLDAPGroupRead(ctx context.Context, d *schema.ResourceData, m interf
 
 	dn := d.Id()
 
-	attributes, err := client.ReadGroup(dn)
+	attributes, err := client.ReadGroup(dn, 1500)
 	if err != nil {
 		if err.(*ldap.Error).ResultCode == 32 {
 			// Object doesn't exist
