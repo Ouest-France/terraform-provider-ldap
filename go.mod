@@ -3,7 +3,7 @@ module github.com/Ouest-France/terraform-provider-ldap
 go 1.17
 
 require (
-	github.com/Ouest-France/goldap v0.5.4
+	github.com/Ouest-France/goldap v0.5.5
 	github.com/go-ldap/ldap/v3 v3.4.2
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.13.0
 )
