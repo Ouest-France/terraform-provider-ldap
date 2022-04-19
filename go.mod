@@ -1,6 +1,6 @@
 module github.com/Ouest-France/terraform-provider-ldap
 
-go 1.17
+go 1.18
 
 require (
 	github.com/Ouest-France/goldap v0.5.5
