@@ -22,9 +22,6 @@ jobs:
       - name: Run Golang CI Lint
         uses: golangci/golangci-lint-action@v2
 
-      - name: Clean Lint
-        run: rm -rf golangci-lint-*
-
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v2
