@@ -74,7 +74,7 @@ func resourceLDAPGroupCreate(ctx context.Context, d *schema.ResourceData, m inte
 		members = append(members, member.(string))
 	}
 
-	err := client.CreateGroup(dn, d.Get("name").(string), d.Get("description").(string), members)
+	err := client.CreateGroup(dn, d.Get("name").(string), d.Get("description").(string), d.Get("group_type").(string), members)
 	if err != nil {
 		return diag.FromErr(err)
 	}
