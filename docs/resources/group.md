@@ -19,11 +19,11 @@ resource "ldap_group" "group" {
 * `name` - (Required) LDAP group name.
 * `members` - (Optional) LDAP group members. Defaults to `[]`.
 * `description` - (Optional) Description attribute for the LDAP group. Defaults to empty.
+* `group_type` - (Optional, Computed) Type of the group.
 
 ## Attribute Reference
 
 * `id` - The DN of the LDAP group.
-* `group_type` - Type of the group.
 
 ## Import
 
