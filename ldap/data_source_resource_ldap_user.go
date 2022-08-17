@@ -2,7 +2,7 @@ package ldap
 
 import (
 	"context"
-
+	"encoding/json"
 	"github.com/Ouest-France/goldap"
 	"github.com/go-ldap/ldap/v3"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -28,24 +28,36 @@ func dataSourceLDAPUser() *schema.Resource {
 				Description:  "The name of the LDAP user.",
 				Type:         schema.TypeString,
 				Optional:     true,
-				AtLeastOneOf: []string{"name", "sam_account_name", "user_principal_name"},
+				AtLeastOneOf: []string{"name", "sam_account_name", "user_principal_name", "filter"},
 			},
 			"sam_account_name": {
 				Description:  "The sAMAccountName of the LDAP user.",
 				Type:         schema.TypeString,
 				Optional:     true,
-				AtLeastOneOf: []string{"name", "sam_account_name", "user_principal_name"},
+				AtLeastOneOf: []string{"name", "sam_account_name", "user_principal_name", "filter"},
 			},
 			"user_principal_name": {
 				Description:  "The userPrincipalName of the LDAP user",
 				Type:         schema.TypeString,
 				Optional:     true,
-				AtLeastOneOf: []string{"name", "sam_account_name", "user_principal_name"},
+				AtLeastOneOf: []string{"name", "sam_account_name", "user_principal_name", "filter"},
+			},
+			"filter": {
+				Description:  "The filter for selecting the LDAP user.",
+				Type:         schema.TypeString,
+				Optional:     true,
+				AtLeastOneOf: []string{"name", "sam_account_name", "user_principal_name", "filter"},
 			},
 			"description": {
 				Description: "Description attribute for the LDAP user.",
 				Type:        schema.TypeString,
 				Computed:    true,
+			},
+			"data_json": {
+				Description: "JSON-encoded string that that is read as the attributes of the user.",
+				Type:        schema.TypeString,
+				Computed:    true,
+				Sensitive:   true,
 			},
 		},
 	}
@@ -58,7 +70,16 @@ func dataSourceLDAPUserRead(ctx context.Context, d *schema.ResourceData, m inter
 func resourceLDAPUserRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*goldap.Client)
 
-	user, err := client.ReadUser(d.Get("ou").(string), d.Get("name").(string), d.Get("sam_account_name").(string), d.Get("user_principal_name").(string))
+	ou := d.Get("ou").(string)
+	filter := d.Get("filter").(string)
+
+	var user map[string][]string
+	var err error
+	if _, ok := d.GetOk("filter"); ok {
+		user, err = client.ReadUserByFilter(ou, "("+filter+")")
+	} else {
+		user, err = client.ReadUser(ou, d.Get("name").(string), d.Get("sam_account_name").(string), d.Get("user_principal_name").(string))
+	}
 
 	if err != nil {
 		if err.(*ldap.Error).ResultCode == ldap.LDAPResultNoSuchObject {
@@ -77,7 +98,13 @@ func resourceLDAPUserRead(ctx context.Context, d *schema.ResourceData, m interfa
 		return diag.FromErr(err)
 	}
 
-	d.SetId(user["distinguishedName"][0])
+	var id string
+	if _, ok := d.GetOk("filter"); ok {
+		id = "(" + filter + "," + ou + ")"
+	} else {
+		id = user["distinguishedName"][0]
+	}
+	d.SetId(id)
 
 	if val, ok := user["name"]; ok {
 		if err := d.Set("name", val[0]); err != nil {
@@ -101,6 +128,15 @@ func resourceLDAPUserRead(ctx context.Context, d *schema.ResourceData, m interfa
 		if err := d.Set("description", val[0]); err != nil {
 			return diag.FromErr(err)
 		}
+	}
+
+	jsonData, err := json.Marshal(user)
+	if err != nil {
+		return diag.Errorf("error marshaling JSON for %q: %s", d.Get("name").(string), err)
+	}
+
+	if err := d.Set("data_json", string(jsonData)); err != nil {
+		return diag.FromErr(err)
 	}
 
 	return diag.FromErr(err)
