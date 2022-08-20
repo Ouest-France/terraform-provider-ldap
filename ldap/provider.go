@@ -1,7 +1,8 @@
 package ldap
 
 import (
-	"github.com/Ouest-France/goldap"
+	"context"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -38,11 +39,6 @@ func Provider() *schema.Provider {
 				Default:     false,
 				Description: "Enable the TLS encryption for LDAP (LDAPS). Default, is `false`.",
 			},
-			"tls_ca_certificate": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				Description: "The TLS CA certificate to trust for the LDAPS connection.",
-			},
 			"tls_insecure": {
 				Type:        schema.TypeBool,
 				Optional:    true,
@@ -50,32 +46,26 @@ func Provider() *schema.Provider {
 				Description: "Don't verify the server TLS certificate. Default is `false`.",
 			},
 		},
-		ResourcesMap: map[string]*schema.Resource{
-			"ldap_group": resourceLDAPGroup(),
-		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"ldap_group": dataSourceLDAPGroup(),
-			"ldap_user":  dataSourceLDAPUser(),
+			"ldap_user": dataSourceLDAPUser(),
 		},
-		ConfigureFunc: providerConfigure,
+		ConfigureContextFunc: providerConfigure,
 	}
 }
 
-func providerConfigure(d *schema.ResourceData) (interface{}, error) {
-
-	client := &goldap.Client{
+func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
+	client := &Client{
 		Host:         d.Get("host").(string),
 		Port:         d.Get("port").(int),
 		BindUser:     d.Get("bind_user").(string),
 		BindPassword: d.Get("bind_password").(string),
 		TLS:          d.Get("tls").(bool),
-		TLSCACert:    d.Get("tls_ca_certificate").(string),
 		TLSInsecure:  d.Get("tls_insecure").(bool),
 	}
 
 	err := client.Connect()
 	if err != nil {
-		return nil, err
+		return nil, diag.FromErr(err)
 	}
 
 	return client, nil
