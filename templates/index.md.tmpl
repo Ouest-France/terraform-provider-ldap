@@ -1,16 +1,14 @@
 ---
-layout: ""
-page_title: "LDAP Provider"
+page_title: "Provider: generic-ldap"
 description: |-
-  The LDAP provider is used to interact with any ActiveDirectory server.
 ---
 
-# LDAP Provider
+# {{ .ProviderShortName | upper }} Provider
 
-The LDAP provider is used to interact with any ActiveDirectory server.
+The provider makes it possible to read all details about a user in LDAP.
 
 ## Example Usage
 
-{{tffile "examples/provider/provider.tf"}}
+{{ tffile "examples/provider/provider.tf" }}
 
 {{ .SchemaMarkdown | trimspace }}
