@@ -1,11 +1,11 @@
-package ldap
+package client
 
 import (
 	"fmt"
 	"github.com/go-ldap/ldap/v3"
 )
 
-func (c *Client) ReadUserByFilter(ou string, filter string) (entries map[string][]string, err error) {
+func (c *Client) ReadEntryByFilter(ou string, filter string) (entries map[string][]string, err error) {
 	req := ldap.NewSearchRequest(
 		ou,
 		ldap.ScopeWholeSubtree,
@@ -24,11 +24,11 @@ func (c *Client) ReadUserByFilter(ou string, filter string) (entries map[string]
 	}
 
 	if len(sr.Entries) == 0 {
-		return nil, ldap.NewError(ldap.LDAPResultNoSuchObject, fmt.Errorf("The filter '%s' doesn't match any user in the OU: %s", filter, ou))
+		return nil, ldap.NewError(ldap.LDAPResultNoSuchObject, fmt.Errorf("The filter '%s' doesn't match any entry in the OU: %s", filter, ou))
 	}
 
 	if len(sr.Entries) > 1 {
-		return nil, ldap.NewError(ldap.LDAPResultOther, fmt.Errorf("The filter '%s' match more than one user in the OU: %s", filter, ou))
+		return nil, ldap.NewError(ldap.LDAPResultOther, fmt.Errorf("The filter '%s' match more than one entry in the OU: %s", filter, ou))
 	}
 
 	entries = map[string][]string{}

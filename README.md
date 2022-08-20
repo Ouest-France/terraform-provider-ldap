@@ -1,11 +1,12 @@
-# `terraform-provider-ldap`
+# Terraform provider ldap
 
-A [Terraform](https://www.terraform.io) plugin for managing an LDAP server.
+terraform provider for LDAP
 
-## Installation
+## Requirements
 
-This provider require Terraform >= 0.13 and is available for automatic installation through the Terraform Registry: https://registry.terraform.io/providers/Ouest-France/ldap/latest/docs
+* [Terraform Plugin SDK](https://github.com/hashicorp/terraform-plugin-sdk)
+* [terraform-plugin-docs](https://github.com/hashicorp/terraform-plugin-docs)
 
-## Documentation
+## Disclaimer
 
-The document of this provider is now available on the Terraform registry: https://registry.terraform.io/providers/Ouest-France/ldap/latest/docs
+This is by now can only be used to retrieve details about an LDAP entry.

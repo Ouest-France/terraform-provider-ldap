@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	client2 "github.com/l-with/terraform-provider-ldap/client"
 )
 
 func Provider() *schema.Provider {
@@ -47,14 +48,14 @@ func Provider() *schema.Provider {
 			},
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"ldap_user": dataSourceLDAPUser(),
+			"ldap_entry": dataSourceLDAPEntry(),
 		},
 		ConfigureContextFunc: providerConfigure,
 	}
 }
 
 func providerConfigure(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
-	client := &Client{
+	client := &client2.Client{
 		Host:         d.Get("host").(string),
 		Port:         d.Get("port").(int),
 		BindUser:     d.Get("bind_user").(string),

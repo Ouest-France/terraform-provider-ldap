@@ -1,8 +1,7 @@
-package ldap
+package client
 
 import (
 	"crypto/tls"
-	"crypto/x509"
 	"fmt"
 
 	"github.com/go-ldap/ldap/v3"
@@ -22,13 +21,7 @@ func (c *Client) Connect() error {
 	uri := fmt.Sprintf("%s:%d", c.Host, c.Port)
 
 	if c.TLS {
-		caCertPool, err := x509.SystemCertPool()
-		if err != nil {
-			return fmt.Errorf("error tls: %s", err)
-		}
-
 		conn, err := ldap.DialTLS("tcp", uri, &tls.Config{
-			RootCAs:            caCertPool,
 			InsecureSkipVerify: c.TLSInsecure,
 		})
 		if err != nil {
