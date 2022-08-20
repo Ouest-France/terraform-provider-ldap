@@ -2,6 +2,9 @@ module github.com/Ouest-France/terraform-provider-ldap
 
 go 1.18
 
+// temporary replacement waiting for https://github.com/Ouest-France/goldap/pull/21
+replace github.com/Ouest-France/goldap => /Users/lars/github/l-with/goldap
+
 require (
 	github.com/Ouest-France/goldap v0.6.1
 	github.com/go-ldap/ldap/v3 v3.4.4
