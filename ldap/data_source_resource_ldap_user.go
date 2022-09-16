@@ -47,6 +47,11 @@ func dataSourceLDAPUser() *schema.Resource {
 				Type:        schema.TypeString,
 				Computed:    true,
 			},
+			"mail": {
+				Description: "Mail attribute for the LDAP user.",
+				Type:        schema.TypeString,
+				Computed:    true,
+			},
 		},
 	}
 }
@@ -99,6 +104,12 @@ func resourceLDAPUserRead(ctx context.Context, d *schema.ResourceData, m interfa
 
 	if val, ok := user["description"]; ok {
 		if err := d.Set("description", val[0]); err != nil {
+			return diag.FromErr(err)
+		}
+	}
+
+	if val, ok := user["mail"]; ok {
+		if err := d.Set("mail", val[0]); err != nil {
 			return diag.FromErr(err)
 		}
 	}
