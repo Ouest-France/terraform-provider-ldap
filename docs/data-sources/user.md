@@ -22,3 +22,4 @@ data "ldap_user" "user" {
 
 * `id` - The DN of the LDAP user.
 * `description` - Description attribute for the LDAP user.
+* `mail` - Mail attribute for the LDAP user.
