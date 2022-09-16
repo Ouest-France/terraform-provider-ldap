@@ -54,6 +54,11 @@ func dataSourceLDAPGroup() *schema.Resource {
 				Type:        schema.TypeString,
 				Computed:    true,
 			},
+			"managed_by": {
+				Description: "ManagedBy attribute",
+				Type:        schema.TypeString,
+				Computed:    true,
+			},
 		},
 	}
 }

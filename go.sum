@@ -3,8 +3,8 @@ cloud.google.com/go v0.34.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMT
 github.com/Azure/go-ntlmssp v0.0.0-20220621081337-cb9428e4ac1e h1:NeAW1fUYUEWhft7pkxDf6WoUvEZJ/uOKsvtpjLnn8MU=
 github.com/Azure/go-ntlmssp v0.0.0-20220621081337-cb9428e4ac1e/go.mod h1:chxPXzSsl7ZWRAuOIE23GDNzjWuZquvFlgA8xmpunjU=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/Ouest-France/goldap v0.6.1 h1:qMLkRd/CT69rTnP+izTWHyv6z9gJd/IOhXQCh2J5kkw=
-github.com/Ouest-France/goldap v0.6.1/go.mod h1:HekerH+zN6sfJbhlK7UvWMSLP4lOtccjCDOofKahT5A=
+github.com/Ouest-France/goldap v0.6.2 h1:8uTl/RSbTf/yjHRyhrSRHARSXgaqXqGZmTnB5EODAa8=
+github.com/Ouest-France/goldap v0.6.2/go.mod h1:1oPqn1er8HgJglFFCRpY+puY6mnSJQYVxb77wMuCxAA=
 github.com/agext/levenshtein v1.2.2 h1:0S/Yg6LYmFJ5stwQeRp6EeOcCbj7xiqQSdNelsXvaqE=
 github.com/agext/levenshtein v1.2.2/go.mod h1:JEDfjyjHDjOF/1e4FlBE/PkbqA9OfWu2ki2W0IB5558=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=

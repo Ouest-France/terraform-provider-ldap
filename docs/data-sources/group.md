@@ -23,3 +23,4 @@ data "ldap_group" "group" {
 * `group_type` - Type of the group
 * `id` - The DN of the LDAP group.
 * `members` - LDAP group members.
+* `managed_by` - ManagedBy attribute.

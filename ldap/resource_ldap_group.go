@@ -59,6 +59,12 @@ func resourceLDAPGroup() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"managed_by": {
+				Description: "ManagedBy attribute",
+				Type:        schema.TypeString,
+				Optional:    true,
+				Default:     "",
+			},
 		},
 	}
 }
@@ -74,7 +80,7 @@ func resourceLDAPGroupCreate(ctx context.Context, d *schema.ResourceData, m inte
 		members = append(members, member.(string))
 	}
 
-	err := client.CreateGroup(dn, d.Get("name").(string), d.Get("description").(string), d.Get("group_type").(string), members)
+	err := client.CreateGroup(dn, d.Get("name").(string), d.Get("description").(string), d.Get("group_type").(string), d.Get("managed_by").(string), members)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -143,6 +149,13 @@ func resourceLDAPGroupRead(ctx context.Context, d *schema.ResourceData, m interf
 	if err := d.Set("group_type", groupType); err != nil {
 		return diag.FromErr(err)
 	}
+	managedBy := ""
+	if val, ok := attributes["managedBy"]; ok {
+		managedBy = val[0]
+	}
+	if err := d.Set("managed_by", managedBy); err != nil {
+		return diag.FromErr(err)
+	}
 
 	members := []string{}
 	for name, values := range attributes {
@@ -179,6 +192,12 @@ func resourceLDAPGroupUpdate(ctx context.Context, d *schema.ResourceData, m inte
 
 	if d.HasChange("group_type") {
 		if err := client.UpdateGroupType(dn, d.Get("group_type").(string)); err != nil {
+			return diag.FromErr(err)
+		}
+	}
+
+	if d.HasChange("managed_by") {
+		if err := client.UpdateGroupManagedBy(dn, d.Get("managed_by").(string)); err != nil {
 			return diag.FromErr(err)
 		}
 	}
