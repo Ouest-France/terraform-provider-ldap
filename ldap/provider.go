@@ -2,6 +2,7 @@ package ldap
 
 import (
 	"github.com/Ouest-France/goldap"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/logging"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -62,7 +63,6 @@ func Provider() *schema.Provider {
 }
 
 func providerConfigure(d *schema.ResourceData) (interface{}, error) {
-
 	client := &goldap.Client{
 		Host:         d.Get("host").(string),
 		Port:         d.Get("port").(int),
@@ -76,6 +76,10 @@ func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 	err := client.Connect()
 	if err != nil {
 		return nil, err
+	}
+
+	if logging.IsDebugOrHigher() {
+		client.Conn.Debug.Enable(true)
 	}
 
 	return client, nil
