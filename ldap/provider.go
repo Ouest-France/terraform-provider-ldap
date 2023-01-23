@@ -53,10 +53,12 @@ func Provider() *schema.Provider {
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"ldap_group": resourceLDAPGroup(),
+			"ldap_ou":    resourceLDAPOU(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"ldap_group": dataSourceLDAPGroup(),
 			"ldap_user":  dataSourceLDAPUser(),
+			"ldap_ou":    dataSourceLDAPOU(),
 		},
 		ConfigureFunc: providerConfigure,
 	}
