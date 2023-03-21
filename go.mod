@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/Ouest-France/goldap v0.6.5
 	github.com/go-ldap/ldap/v3 v3.4.4
-	github.com/hashicorp/terraform-plugin-sdk/v2 v2.26.0
+	github.com/hashicorp/terraform-plugin-sdk/v2 v2.26.1
 )
 
 require (
