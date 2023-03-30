@@ -1,6 +1,6 @@
 # `terraform-provider-ldap`
 
-A [Terraform](https://www.terraform.io) plugin for managing an LDAP server.
+A [Terraform](https://www.terraform.io) plugin for interacting with any ActiveDirectory server.
 
 ## Installation
 
