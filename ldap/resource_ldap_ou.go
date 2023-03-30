@@ -103,7 +103,7 @@ func resourceLDAPOURead(ctx context.Context, d *schema.ResourceData, m interface
 	}
 
 	// Remove the `OU=<ou-name>,` from the DN to get the OU
-	ou := strings.ReplaceAll(dn, fmt.Sprintf("OU=%s,", attributes["name"][0]), "")
+	ou := strings.Replace(dn, fmt.Sprintf("OU=%s,", nameAttr[0]), "", 1)
 	if err := d.Set("ou", ou); err != nil {
 		return diag.FromErr(err)
 	}
