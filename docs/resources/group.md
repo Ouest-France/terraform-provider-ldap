@@ -24,6 +24,7 @@ resource "ldap_group" "group" {
 
 ## Attribute Reference
 
+* `members_names` - Names of the members
 * `id` - The DN of the LDAP group.
 
 ## Import

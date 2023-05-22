@@ -42,7 +42,15 @@ func dataSourceLDAPGroup() *schema.Resource {
 				Computed:    true,
 			},
 			"members": {
-				Description: "LDAP group members.",
+				Description: "LDAP DN of group members DN",
+				Type:        schema.TypeSet,
+				Computed:    true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"members_names": {
+				Description: "LDAP group members names.",
 				Type:        schema.TypeSet,
 				Computed:    true,
 				Elem: &schema.Schema{
