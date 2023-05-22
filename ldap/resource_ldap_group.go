@@ -3,6 +3,7 @@ package ldap
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/Ouest-France/goldap"
@@ -46,9 +47,17 @@ func resourceLDAPGroup() *schema.Resource {
 				Optional:    true,
 			},
 			"members": {
-				Description: " LDAP group members.",
+				Description: " LDAP group members DN",
 				Type:        schema.TypeSet,
 				Optional:    true,
+				Computed:    true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"members_names": {
+				Description: "LDAP group members names.",
+				Type:        schema.TypeSet,
 				Computed:    true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
@@ -159,12 +168,25 @@ func resourceLDAPGroupRead(ctx context.Context, d *schema.ResourceData, m interf
 	}
 
 	members := []string{}
+	members_names := []string{}
 	for name, values := range attributes {
 		if name == "member" && len(values) >= 1 {
 			members = append(members, values...)
+
+			for _, member := range values {
+				regName := regexp.MustCompile(`CN=(.*?),`)
+				matches := regName.FindStringSubmatch(member)
+				if len(matches) == 2 {
+					members_names = append(members_names, matches[1])
+				}
+			}
 		}
 	}
 	err = d.Set("members", members)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	err = d.Set("members_names", members_names)
 
 	return diag.FromErr(err)
 }
