@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"regexp"
-	"strings"
 
 	"github.com/Ouest-France/goldap"
 	"github.com/go-ldap/ldap/v3"
@@ -139,9 +138,14 @@ func resourceLDAPGroupRead(ctx context.Context, d *schema.ResourceData, m interf
 		return diag.FromErr(err)
 	}
 
-	// Remove the `CN=<group-name>,` from the DN to get the OU
-	ou := strings.ReplaceAll(dn, fmt.Sprintf("CN=%s,", attributes["name"][0]), "")
-	if err := d.Set("ou", ou); err != nil {
+	// Remove the `CN=<group-name>` from the DN to get the OU
+	// using the regex `^cn=.*?,(.*)$` in case insensitive mode
+	reg := regexp.MustCompile(`(?i)^cn=.*?,(.*)$`)
+	match := reg.FindStringSubmatch(dn)
+	if len(match) != 2 {
+		return diag.Errorf("Failed parsing OU from DN (must match regex `^cn=.*?,(.*)$`): %s", dn)
+	}
+	if err := d.Set("ou", match[1]); err != nil {
 		return diag.FromErr(err)
 	}
 
