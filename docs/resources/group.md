@@ -21,6 +21,7 @@ resource "ldap_group" "group" {
 * `description` - (Optional) Description attribute for the LDAP group. Defaults to empty.
 * `group_type` - (Optional, Computed) Type of the group.
 * `managed_by` - (Optional) ManagedBy attribute. Defaults to ``.
+* `display_name` - (Optional) The displayName of the group. Defaults to ``.
 
 ## Attribute Reference
 

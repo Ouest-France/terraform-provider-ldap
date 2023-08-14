@@ -74,6 +74,12 @@ func resourceLDAPGroup() *schema.Resource {
 				Optional:    true,
 				Default:     "",
 			},
+			"display_name": {
+				Description: "The displayName of the group",
+				Type:        schema.TypeString,
+				Optional:    true,
+				Default:     "",
+			},
 		},
 	}
 }
@@ -89,7 +95,7 @@ func resourceLDAPGroupCreate(ctx context.Context, d *schema.ResourceData, m inte
 		members = append(members, member.(string))
 	}
 
-	err := client.CreateGroup(dn, d.Get("name").(string), d.Get("description").(string), d.Get("group_type").(string), d.Get("managed_by").(string), members)
+	err := client.CreateGroup(dn, d.Get("name").(string), d.Get("description").(string), d.Get("group_type").(string), d.Get("managed_by").(string), d.Get("display_name").(string), members)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -170,6 +176,13 @@ func resourceLDAPGroupRead(ctx context.Context, d *schema.ResourceData, m interf
 	if err := d.Set("managed_by", managedBy); err != nil {
 		return diag.FromErr(err)
 	}
+	displayName := ""
+	if val, ok := attributes["displayName"]; ok {
+		displayName = val[0]
+	}
+	if err := d.Set("display_name", displayName); err != nil {
+		return diag.FromErr(err)
+	}
 
 	members := []string{}
 	members_names := []string{}
@@ -225,6 +238,12 @@ func resourceLDAPGroupUpdate(ctx context.Context, d *schema.ResourceData, m inte
 
 	if d.HasChange("managed_by") {
 		if err := client.UpdateGroupManagedBy(dn, d.Get("managed_by").(string)); err != nil {
+			return diag.FromErr(err)
+		}
+	}
+
+	if d.HasChange("display_name") {
+		if err := client.UpdateGroupDisplayName(dn, d.Get("display_name").(string)); err != nil {
 			return diag.FromErr(err)
 		}
 	}
