@@ -1,7 +1,7 @@
 github.com/Azure/go-ntlmssp v0.0.0-20221128193559-754e69321358 h1:mFRzDkZVAjdal+s7s0MwaRv9igoPqLRdzOLzw/8Xvq8=
 github.com/Azure/go-ntlmssp v0.0.0-20221128193559-754e69321358/go.mod h1:chxPXzSsl7ZWRAuOIE23GDNzjWuZquvFlgA8xmpunjU=
-github.com/Ouest-France/goldap v0.6.5 h1:yzBs8GLhP9vO420bmJEmJkrDH0S3/hs75pV8Ke1NZqk=
-github.com/Ouest-France/goldap v0.6.5/go.mod h1:1oPqn1er8HgJglFFCRpY+puY6mnSJQYVxb77wMuCxAA=
+github.com/Ouest-France/goldap v0.7.1 h1:EfTG6sL15UagDAA5f71ufjQsh45pBxE0DdIZnD1Bd6Y=
+github.com/Ouest-France/goldap v0.7.1/go.mod h1:nyCODysaBbtbM8fyHrD4YgJwfnVGuva6uNbCZYYUuME=
 github.com/agext/levenshtein v1.2.2 h1:0S/Yg6LYmFJ5stwQeRp6EeOcCbj7xiqQSdNelsXvaqE=
 github.com/agext/levenshtein v1.2.2/go.mod h1:JEDfjyjHDjOF/1e4FlBE/PkbqA9OfWu2ki2W0IB5558=
 github.com/alexbrainman/sspi v0.0.0-20210105120005-909beea2cc74 h1:Kk6a4nehpJ3UuJRqlA3JxYxBZEqCeOmATOvrbT4p9RA=
