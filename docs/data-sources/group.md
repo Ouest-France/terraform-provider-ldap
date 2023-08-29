@@ -25,3 +25,4 @@ data "ldap_group" "group" {
 * `members` - LDAP DN of group members
 * `members_names` - LDAP name of group members
 * `managed_by` - ManagedBy attribute.
+* `display_name` - The displayName of the group.

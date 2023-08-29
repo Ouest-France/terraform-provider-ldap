@@ -67,6 +67,11 @@ func dataSourceLDAPGroup() *schema.Resource {
 				Type:        schema.TypeString,
 				Computed:    true,
 			},
+			"display_name": {
+				Description: "The displayName of the group",
+				Type:        schema.TypeString,
+				Computed:    true,
+			},
 		},
 	}
 }
