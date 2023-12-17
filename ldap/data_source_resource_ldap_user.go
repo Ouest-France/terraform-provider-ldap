@@ -63,7 +63,7 @@ func dataSourceLDAPUserRead(ctx context.Context, d *schema.ResourceData, m inter
 func resourceLDAPUserRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*goldap.Client)
 
-	user, err := client.ReadUser(d.Get("ou").(string), d.Get("name").(string), d.Get("sam_account_name").(string), d.Get("user_principal_name").(string))
+	user, err := client.ReadUser(d.Get("ou").(string), ldap.EscapeFilter(d.Get("name").(string)), d.Get("sam_account_name").(string), d.Get("user_principal_name").(string))
 
 	if err != nil {
 		if err.(*ldap.Error).ResultCode == ldap.LDAPResultNoSuchObject {
